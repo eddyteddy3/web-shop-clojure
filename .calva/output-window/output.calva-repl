@@ -1,0 +1,1877 @@
+; This is the Calva REPL Window.
+; It's just a file, really, with some special treatment from Calva.
+; Use it as a REPL input prompt if you like. (When the REPL is connected.)
+; TIPS: The keyboard shortcut `ctrl+alt+o r` shows and focuses this window
+; Please see https://calva.io/repl-window/ for more info.
+; Happy coding! ♥️
+
+; TIPS: As with any Clojure file when the REPL is connected:
+; - `alt+enter` evaluates the current top level form.
+; - `ctrl+enter` evaluates the current form.
+; Special for this file:
+; - `alt+up` and `alt+down` traverse up and down the REPL command history
+;    when the cursor is after the last contents at the prompt
+; 
+; See also the Calva Inspector: https://calva.io/inspector/
+
+PLEASE NOTE
+We will update the default location of this file.
+The new default location will be
+  "<projectRootPath>/.calva/repl.calva-repl"
+For now the legacy path is used by default.
+To give yourself a smooth transition, you can opt in
+to the change, by configuring this setting as false:
+  "calva.useLegacyReplWindowPath"
+and then add "**/.calva/repl.calva-repl" to your ".gitignore" file.
+
+
+This file is configured as the output destination for all REPL output.
+You can configure this with the setting:
+  "calva.outputDestinations"
+
+
+; Connecting ...
+; Reading port file: file:///Users/mouzzamtahir/Downloads/UniversityCourses/MulticoreProgramming/Clojure/Project-Self-Made/custom-web-shop-app/.nrepl-port ...
+; Using host:port localhost:57165 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉custom-web-shop-app.core꞉> 
+"Please see https://calva.io/output/#about-stdout-in-the-repl-window
+about why stdout printed to this file is prepended with `;` to be line comments."
+clj꞉custom-web-shop-app.core꞉> 
+(println "hello, world")
+; hello, world
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(doc simulate-purchase)
+; -------------------------
+; custom-web-shop-app.core/simulate-purchase
+; ([product-id quantity])
+;   just a test code for experimental purposes
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(println @stock)
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(doc stock)
+; -------------------------
+; custom-web-shop-app.core/stock
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(product-id->name "Apple")
+; Execution error (ClassCastException) at custom-web-shop-app.core/product-id->name (core.clj:28).
+; class java.lang.String cannot be cast to class java.lang.Number (java.lang.String and java.lang.Number are in module java.base of loader 'bootstrap')
+clj꞉custom-web-shop-app.core꞉> 
+(product-id->name 0)
+"Apple"
+clj꞉custom-web-shop-app.core꞉> 
+(product-name->id "Apple")
+0
+clj꞉custom-web-shop-app.core꞉> 
+(store-name->id "lidl")
+-1
+clj꞉custom-web-shop-app.core꞉> 
+(store-id->name 0)
+"Aldi"
+clj꞉custom-web-shop-app.core꞉> 
+(store-id->name 1)
+"Carrefour"
+clj꞉custom-web-shop-app.core꞉> 
+(def test-stock [
+                 [5 10 15]
+                 [3 6 9]
+                 [2 4 6]
+                 ])
+#'custom-web-shop-app.core/test-stock
+clj꞉custom-web-shop-app.core꞉> 
+(println test-stock)
+; [[5 10 15] [3 6 9] [2 4 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(def ref-stock test-stock)
+#'custom-web-shop-app.core/ref-stock
+clj꞉custom-web-shop-app.core꞉> 
+(def ref-stock (ref test-stock))
+#'custom-web-shop-app.core/ref-stock
+clj꞉custom-web-shop-app.core꞉> 
+(println ref-stock)
+; #object[clojure.lang.Ref 0x2c2220d1 {:status :ready, :val [[5 10 15] [3 6 9] [2 4 6]]}]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(println @ref-stock)
+; [[5 10 15] [3 6 9] [2 4 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(println stock)
+; #object[clojure.lang.Atom 0x51640f90 {:status :ready, :val [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]}]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(stock (ref test-stock))
+; Execution error (ClassCastException) at custom-web-shop-app.core/eval2580 (form-init9558449341687433834.clj:112).
+; class clojure.lang.Atom cannot be cast to class clojure.lang.IFn (clojure.lang.Atom and clojure.lang.IFn are in unnamed module of loader 'app')
+clj꞉custom-web-shop-app.core꞉> 
+(deref stock)
+[[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+; before do syncbefore do sync
+; 
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+; before do syncbefore do sync
+; 
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Attempting to purchase, current stock: [15 25 30 29 15] quantity: 5
+; Attempting to purchase, current stock: [15 25 30 29 15] quantity: 6
+; Execution error (ClassCastException) at custom-web-shop-app.core/simulate-purchase$fn (core.clj:209).
+; class clojure.lang.PersistentVector cannot be cast to class java.lang.Number (clojure.lang.PersistentVector is in unnamed module of loader 'app'; java.lang.Number is in module java.base of loader 'bootstrap')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Attempting to purchase, current stock: Attempting to purchase, current stock: [[15 25 30 15 29 25 15]30  29 15]quantity:  5
+; quantity: 6
+; Execution error (ClassCastException) at custom-web-shop-app.core/simulate-purchase$fn (core.clj:209).
+; class clojure.lang.PersistentVector cannot be cast to class java.lang.Number (clojure.lang.PersistentVector is in unnamed module of loader 'app'; java.lang.Number is in module java.base of loader 'bootstrap')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Attempting to purchase, current stock: [15 25 30 29 15] quantity: 5
+; Attempting to purchase, current stock: [15 25 30 29 15] quantity: 6
+; Execution error (ClassCastException) at custom-web-shop-app.core/simulate-purchase$fn (core.clj:209).
+; class clojure.lang.PersistentVector cannot be cast to class java.lang.Number (clojure.lang.PersistentVector is in unnamed module of loader 'app'; java.lang.Number is in module java.base of loader 'bootstrap')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Attempting to purchase, current stock: [Attempting to purchase, current stock: 15 25 30 [29 15] 15 quantity:25  30 5
+; 29 15] quantity: 6
+; Execution error (ClassCastException) at custom-web-shop-app.core/simulate-purchase$fn (core.clj:209).
+; class clojure.lang.PersistentVector cannot be cast to class java.lang.Number (clojure.lang.PersistentVector is in unnamed module of loader 'app'; java.lang.Number is in module java.base of loader 'bootstrap')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Attempting to purchase, current stock: Attempting to purchase, current stock: [15[ 25 30 2915  1525] 30  29 quantity:15]  5
+; quantity: 6
+; Final Stock after all purchases: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Type of current-stock: Type of current-stock: clojure.lang.PersistentVectorclojure.lang.PersistentVector
+; 
+; Type of quantity: java.lang.LongType of quantity:
+;  java.lang.Long
+; Final Stock after all purchases: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; Initial Stock: [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Attempting to purchase, Attempting to purchase, product-id: product-id: 00  store-id:store-id:  00  current stock:current stock:  1515  quantity:quantity:  56
+; 
+; Purchase possible, proceeding.
+; Purchase possible, proceeding.
+; Purchase made, new stock: 10
+; Exiting transaction
+; Attempting to purchase, product-id: 0 store-id: 0 current stock: 10 quantity: 6
+; Purchase possible, proceeding.
+; Purchase made, new stock: 4
+; Exiting transaction
+; Final Stock after all purchases: [[4 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(print-stock @stock)
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;    4   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   20   17    8 Banana
+;   25   17   31   18   20 Pear
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(print-stock stock)
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+; Execution error (UnsupportedOperationException) at custom-web-shop-app.core/print-stock (core.clj:83).
+; count not supported on this type: Ref
+clj꞉custom-web-shop-app.core꞉> 
+(product-name->id "Apple")
+0
+clj꞉custom-web-shop-app.core꞉> 
+(product-name->id "Banana")
+2
+clj꞉custom-web-shop-app.core꞉> 
+(find-available-stores 2)
+; Error printing return value (IllegalArgumentException) at clojure.lang.RT/seqFrom (RT.java:557).
+; Don't know how to create ISeq from: java.lang.Long
+clj꞉custom-web-shop-app.core꞉> 
+(find-available-stores [2])
+; Error printing return value (UnsupportedOperationException) at clojure.lang.RT/nthFrom (RT.java:992).
+; nth not supported on this type: Long
+clj꞉custom-web-shop-app.core꞉> 
+(find-available-stores 2)
+; Error printing return value (IllegalArgumentException) at clojure.lang.RT/seqFrom (RT.java:557).
+; Don't know how to create ISeq from: java.lang.Long
+clj꞉custom-web-shop-app.core꞉> 
+(first customer)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:289:1).
+; Unable to resolve symbol: customer in this context
+clj꞉custom-web-shop-app.core꞉> 
+(first input/customers)
+{:id 0, :products [["Banana" 5] ["Apple" 7]]}
+clj꞉custom-web-shop-app.core꞉> 
+(def temp-customer ((first input/customers)))
+; Execution error (ArityException) at nrepl.middleware.interruptible-eval/evaluate$fn$fn (interruptible_eval.clj:87).
+; Wrong number of args (0) passed to: clojure.lang.PersistentArrayMap
+clj꞉custom-web-shop-app.core꞉> 
+(def temp-customer (first input/customers))
+#'custom-web-shop-app.core/temp-customer
+clj꞉custom-web-shop-app.core꞉> 
+(map (fn [[name number]] [(product-name->id name) number])
+     (:products temp-customer))
+([2 5] [0 7])
+clj꞉custom-web-shop-app.core꞉> 
+(defn get-productId-with-quantity
+  [customer]
+  (let [(products (:products customer))]
+    (println products)
+    (products)))
+; Syntax error macroexpanding clojure.core/let at (.calva/output-window/output.calva-repl:309:3).
+; (products (:products customer)) - failed: vector? at: [:bindings] spec: :clojure.core.specs.alpha/bindings
+clj꞉custom-web-shop-app.core꞉> 
+; Syntax error macroexpanding clojure.core/let at (.calva/output-window/output.calva-repl:309:3).
+; (products (:products customer)) - failed: vector? at: [:bindings] spec: :clojure.core.specs.alpha/bindings
+clj꞉custom-web-shop-app.core꞉> 
+; Syntax error macroexpanding clojure.core/let at (.calva/output-window/output.calva-repl:309:3).
+; [(products (:products customer))] - failed: even-number-of-forms? at: [:bindings] spec: :clojure.core.specs.alpha/bindings
+clj꞉custom-web-shop-app.core꞉> 
+(defn get-productId-with-quantity
+  [customer]
+  (let [products (:products customer)]
+    (println products)))
+#'custom-web-shop-app.core/get-productId-with-quantity
+clj꞉custom-web-shop-app.core꞉> 
+(get-productId-with-quantity temp-customer)
+; [[Banana 5] [Apple 7]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(defn get-productId-with-quantity
+  [customer]
+  (let [products (:products customer)]
+    (println products)
+    (map (products) (name))
+    (println name)
+    ))
+; Syntax error compiling at (.calva/output-window/output.calva-repl:335:5).
+; Unable to resolve symbol: number in this context
+clj꞉custom-web-shop-app.core꞉> 
+; Syntax error compiling at (.calva/output-window/output.calva-repl:335:10).
+; Unable to resolve symbol: number in this context
+clj꞉custom-web-shop-app.core꞉> 
+; Syntax error compiling at (.calva/output-window/output.calva-repl:335:21).
+; Unable to resolve symbol: number in this context
+clj꞉custom-web-shop-app.core꞉> 
+#'custom-web-shop-app.core/get-productId-with-quantity
+clj꞉custom-web-shop-app.core꞉> 
+(defn get-productId-with-quantity
+  [customer]
+  (let [products (:products customer)]
+    (println products)
+    (map (products) (println name))))
+#'custom-web-shop-app.core/get-productId-with-quantity
+clj꞉custom-web-shop-app.core꞉> 
+(get-productId-with-quantity temp-customer)
+; [[Banana 5] [Apple 7]]
+; Execution error (ArityException) at custom-web-shop-app.core/get-productId-with-quantity (form-init9558449341687433834.clj:353).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+clj꞉custom-web-shop-app.core꞉> 
+(defn get-productId-with-quantity
+  [customer]
+  (let [products (:products customer)]
+    (println products)
+    (map (name) (products))))
+#'custom-web-shop-app.core/get-productId-with-quantity
+clj꞉custom-web-shop-app.core꞉> 
+(get-productId-with-quantity temp-customer)
+; [[Banana 5] [Apple 7]]
+; Execution error (ArityException) at custom-web-shop-app.core/get-productId-with-quantity (form-init9558449341687433834.clj:365).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+clj꞉custom-web-shop-app.core꞉> 
+(defn get-productId-with-quantity
+  [customer]
+  (let [products (:products customer)]
+    (println products)
+    
+; [Apple Avocado Banana Pear]
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [customer]
+      (let [products (:products customer)]
+        (println products)))
+    
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity temp-customer)
+; [[Banana 5] [Apple 7]]
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [customer]
+      (let [products (:products customer)]
+        (println products)
+        (map (products) ())))
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [name number]
+      (product-name->id name) number
+      )
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-customer-products
+      [customer]
+      (:products customer))
+    #'custom-web-shop-app.core/get-customer-products
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-customer-products temp-customer)
+    [["Banana" 5] ["Apple" 7]]
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity [["Banana" 5] ["Apple" 7]])
+; Execution error (ArityException) at custom-web-shop-app.core/eval4345 (form-init9558449341687433834.clj:412).
+; Wrong number of args (1) passed to: custom-web-shop-app.core/get-productId-with-quantity
+; Execution error (ArityException) at custom-web-shop-app.core/eval4347 (form-init9558449341687433834.clj:412).
+; Wrong number of args (1) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity ["Banana" 5])
+; Execution error (ArityException) at custom-web-shop-app.core/eval4349 (form-init9558449341687433834.clj:418).
+; Wrong number of args (1) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [name number]
+      [(product-name->id name) number])
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity ["Banana" 4])
+; Execution error (ArityException) at custom-web-shop-app.core/eval4352 (form-init9558449341687433834.clj:427).
+; Wrong number of args (1) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [[name number]]
+      [(product-name->id name) number]
+      )
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity ["Banana" 4])
+; Execution error (ArityException) at custom-web-shop-app.core/eval4355 (form-init9558449341687433834.clj:437).
+; Wrong number of args (1) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [name number]
+      [(product-name->id name) number]
+      )
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity "Banana" 4)
+; Banana
+; 4
+    [2 4]
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [name number]
+      [(product-name->id name) number]
+      )
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-customer-products
+      [customer]
+      (:products customer))
+    #'custom-web-shop-app.core/get-customer-products
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-customer-products temp-customer) (get-productId-with-quantity))
+; Execution error (ArityException) at custom-web-shop-app.core/eval4362 (form-init9558449341687433834.clj:463).
+; Wrong number of args (0) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-productId-with-quantity) (get-customer-products temp-customer))
+; Execution error (ArityException) at custom-web-shop-app.core/eval4364 (form-init9558449341687433834.clj:467).
+; Wrong number of args (0) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-customer-products temp-customer)
+    [["Banana" 5] ["Apple" 7]]
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-customer-products temp-customer))
+    #object[clojure.core$map$fn__5931 0x5684acf6 "clojure.core$map$fn__5931@5684acf6"]
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-customer-products temp-customer) (println))
+; 
+    ()
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (println) (get-customer-products temp-customer))
+; 
+; Error printing return value (NullPointerException) at clojure.core/map$fn (core.clj:2770).
+; Cannot invoke "clojure.lang.IFn.invoke(Object)" because "this.f" is null
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-customer-products temp-customer) [println])
+; Error printing return value (IllegalArgumentException) at clojure.lang.APersistentVector/null (APersistentVector.java:297).
+; Key must be integer
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-customer-products temp-customer) (println println))
+; #object[clojure.core$println 0x25701e18 clojure.core$println@25701e18]
+    ()
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn get-productId-with-quantity
+      [[name number]]
+      [(product-name->id name) number])
+    #'custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (get-productId-with-quantity ["Banana" 6])
+    [2 6]
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-customer-products temp-customer) (get-productId-with-quantity))
+; Execution error (ArityException) at custom-web-shop-app.core/eval4385 (form-init9558449341687433834.clj:503).
+; Wrong number of args (0) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (map ([get-productId-with-quantity]) (get-customer-products temp-customer))
+; Execution error (ArityException) at custom-web-shop-app.core/eval4387 (form-init9558449341687433834.clj:507).
+; Wrong number of args (0) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    clj꞉custom-web-shop-app.core꞉> 
+    (map ([get-productId-with-quantity]) (get-customer-products temp-customer))
+    (map ([get-productId-with-quantity]) (get-customer-products temp-customer))
+; Execution error (ArityException) at custom-web-shop-app.core/eval4391 (form-init9558449341687433834.clj:512).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+    clj꞉custom-web-shop-app.core꞉> 
+    (map (get-productId-with-quantity) ([get-customer-products temp-customer]))
+; Execution error (ArityException) at custom-web-shop-app.core/eval4393 (form-init9558449341687433834.clj:516).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+    clj꞉custom-web-shop-app.core꞉> 
+; Execution error (ArityException) at custom-web-shop-app.core/eval4395 (form-init9558449341687433834.clj:516).
+; Wrong number of args (0) passed to: custom-web-shop-app.core/get-productId-with-quantity
+    (map (fn [[name number]]
+           [(product-name->id name) number])
+         (get-customer-products temp-customer))
+    ([2 5] [0 7])
+    clj꞉custom-web-shop-app.core꞉> 
+    (store-name->id "Aldi")
+    0
+    clj꞉custom-web-shop-app.core꞉> 
+    (product-available? (0 2 19))
+; Execution error (ClassCastException) at custom-web-shop-app.core/eval4407 (form-init9558449341687433834.clj:530).
+; class java.lang.Long cannot be cast to class clojure.lang.IFn (java.lang.Long is in module java.base of loader 'bootstrap'; clojure.lang.IFn is in unnamed module of loader 'app')
+    clj꞉custom-web-shop-app.core꞉> 
+    (product-available? 0 2 19)
+    false
+    clj꞉custom-web-shop-app.core꞉> 
+    (product-available? 0 2 1)
+    true
+    clj꞉custom-web-shop-app.core꞉> 
+    (first input/customer)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:540:1).
+; No such var: input/customer
+    clj꞉custom-web-shop-app.core꞉> 
+    (first input/customers)
+    {:id 0, :products [["Banana" 5] ["Apple" 7]]}
+    clj꞉custom-web-shop-app.core꞉> 
+    (def temp-cus (first input/customers))
+    #'custom-web-shop-app.core/temp-cus
+    clj꞉custom-web-shop-app.core꞉> 
+    (last input/customers)
+    {:id 9, :products [["Apple" 6] ["Pear" 4] ["Avocado" 3]]}
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+; (([2 5] [0 7])
+; [0 6] [3 4] [1 3])
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; Initial Stock: [10 10 10]
+; custon  (Final Stock: [10 10 10]
+; custon  ([2 5] [0 7])
+; [0 6] [3 4] [1 3])
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; Initial Stock: [10 10 10]
+; custon  ([2 5] [0 7])
+; Execution error (NullPointerException) at custom-web-shop-app.core/run-simulation (core.clj:212).
+; Cannot invoke "clojure.lang.IFn.invoke()" because the return value of "clojure.lang.IFn.invoke(Object)" is null
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; Initial Stock: [10 10 10]
+; custon  (Final Stock: [10 10 10]
+; custon  ([2 5] [[0 7]0) 6]
+;  [3 4] [1 3])
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+; Syntax error reading source at (custom_web_shop_app/core.clj:278:1).
+; EOF while reading, starting at line 209
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; Initial Stock: [10 10 10]
+; Final Stock: [10 10 10]
+; custon custon   (([2 5] [0 7])[
+; 0 6] [3 4] [1 3])
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; custon  custon  (([0 6] [3 4] [1 3])
+; [2 5] [0 7])
+    #object[clojure.core$future_call$reify__8544 0x6ff92733 {:status :pending, :val nil}]
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; custon  custon  (([0 6] [3 4] [1 [3])
+; 2 5] [0 7])
+; Execution error (NullPointerException) at custom-web-shop-app.core/run-simulation (core.clj:213).
+; Cannot invoke "clojure.lang.IFn.invoke()" because the return value of "clojure.lang.IFn.invoke(Object)" is null
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; Execution error (ArityException) at custom-web-shop-app.core/run-simulation (core.clj:210).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; custon  ([2 5] [0 7])
+; Execution error (NullPointerException) at custom-web-shop-app.core/run-simulation (core.clj:213).
+; Cannot invoke "clojure.lang.IFn.invoke()" because the return value of "clojure.lang.IFn.invoke(Object)" is null
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; custon  ([2 5] [0 7])
+; Execution error (NullPointerException) at custom-web-shop-app.core/run-simulation (core.clj:209).
+; Cannot invoke "clojure.lang.IFn.invoke()" because the return value of "clojure.lang.IFn.invoke(Object)" is null
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; custon  ([2 5] [0 7])
+; Execution error (NullPointerException) at custom-web-shop-app.core/run-simulation (core.clj:213).
+; Cannot invoke "clojure.lang.IFn.invoke()" because the return value of "clojure.lang.IFn.invoke(Object)" is null
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; custon  ([2 5] [0 7])
+; custon  ([0 6] [3 4] [1 3])
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (nth @store 0)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:659:1).
+; Unable to resolve symbol: store in this context
+    clj꞉custom-web-shop-app.core꞉> 
+; Syntax error compiling at (.calva/output-window/output.calva-repl:659:1).
+; Unable to resolve symbol: store in this context
+    clj꞉custom-web-shop-app.core꞉> 
+    (@stock)
+; Execution error (ArityException) at custom-web-shop-app.core/eval5941 (form-init9558449341687433834.clj:666).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+    clj꞉custom-web-shop-app.core꞉> 
+    (println @stock)
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (@stock 1)
+    [5 7 6 10 2]
+    clj꞉custom-web-shop-app.core꞉> 
+    (@stock 0)
+    [15 25 30 29 15]
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; customer's products  ([2 5] [0 7])
+; available stores  (1 2 3 4)
+; customer's products  ([0 6] [3 4] [1 3])
+; available stores  (0 1 2 3)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (defn product-available? [store-id product-id n]
+      "Returns true if at least `n` of the given product are still available in the
+  given store."
+      (>= (nth (nth @stock product-id) store-id) n))
+    #'custom-web-shop-app.core/product-available?
+    clj꞉custom-web-shop-app.core꞉> 
+    (use 'custom-web-shop-app.core :reload)
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (run-simulation)
+; customer's products  ([2 5] [0 7])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; customer's products  ([0 6] [3 4] [1 3])
+; available stores  (0 1 2 3)
+; cheapest store  2
+    nil
+    clj꞉custom-web-shop-app.core꞉> 
+    (store-id->name 2)
+    "Colruyt"
+    clj꞉custom-web-shop-app.core꞉> )
+; Syntax error reading source at (REPL:476:83).
+; No reader function for tag object
+clj꞉custom-web-shop-app.core꞉> 
+; Syntax error reading source at (REPL:476:87).
+; No reader function for tag object
+clj꞉custom-web-shop-app.core꞉> 
+(@stock)
+; Execution error (ArityException) at custom-web-shop-app.core/eval6206 (form-init9558449341687433834.clj:717).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+clj꞉custom-web-shop-app.core꞉> 
+(println @stock)
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(print-stock @stock)
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   20   17    8 Banana
+;   25   17   31   18   20 Pear
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(second input/customer)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:734:1).
+; No such var: input/customer
+clj꞉custom-web-shop-app.core꞉> 
+(first input/customer)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:738:1).
+; No such var: input/customer
+clj꞉custom-web-shop-app.core꞉> 
+(second input/customers)
+{:id 1, :products [["Banana" 7] ["Apple" 9]]}
+clj꞉custom-web-shop-app.core꞉> 
+(third input/customers)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:745:1).
+; Unable to resolve symbol: third in this context
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; Execution error (IllegalStateException) at custom-web-shop-app.core/buy-product (core.clj:99).
+; No transaction running
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/buy-product (core.clj:99).
+; Key must be integer
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/buy-product (core.clj:99).
+; Key must be integer
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; Execution error (ClassCastException) at custom-web-shop-app.core/buy-product (core.clj:99).
+; class clojure.lang.Ref cannot be cast to class clojure.lang.IAtom (clojure.lang.Ref and clojure.lang.IAtom are in unnamed module of loader 'app')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id and number ([2 7] [0 9])
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id and number ([3 15])
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; store id [2 7]
+; quantity id [0 9]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; Execution error (IndexOutOfBoundsException) at custom-web-shop-app.core/simulate-purchase (core.clj:213).
+; null
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id and number ([2 7] [0 9])
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id and number ([3 15])
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(defn test-func
+  [[productid]]
+  (println "id " productid)
+  (println "quantity " quantity)
+  )
+; Syntax error macroexpanding clojure.core/defn at (.calva/output-window/output.calva-repl:844:1).
+; (test-func) - failed: simple-symbol? at: [:fn-name] spec: :clojure.core.specs.alpha/defn-args
+clj꞉custom-web-shop-app.core꞉> 
+; Syntax error macroexpanding clojure.core/defn at (.calva/output-window/output.calva-repl:844:1).
+; [test-func] - failed: simple-symbol? at: [:fn-name] spec: :clojure.core.specs.alpha/defn-args
+clj꞉custom-web-shop-app.core꞉> 
+#'custom-web-shop-app.core/test-func
+clj꞉custom-web-shop-app.core꞉> 
+(test-func ([2 7] [0 9]))
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/eval7250 (form-init9558449341687433834.clj:857).
+; Key must be integer
+clj꞉custom-web-shop-app.core꞉> 
+(test-func [2 7] [0 9])
+; id  2
+; quantity  0
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(defn test-func
+  [[productid]]
+  (println "id " productid))
+; Syntax error compiling at (.calva/output-window/output.calva-repl:869:3).
+; Unable to resolve symbol: quantity in this context
+clj꞉custom-web-shop-app.core꞉> 
+#'custom-web-shop-app.core/test-func
+clj꞉custom-web-shop-app.core꞉> 
+(test-func [2 7] [0 9])
+; Execution error (ArityException) at custom-web-shop-app.core/eval7263 (form-init9558449341687433834.clj:874).
+; Wrong number of args (2) passed to: custom-web-shop-app.core/test-func
+clj꞉custom-web-shop-app.core꞉> 
+
+(test-func [2 7])
+; id  2
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(defn test-dest
+  [[id quant]]
+  (println "id " id)
+  (println "quant " quant))
+#'custom-web-shop-app.core/test-dest
+clj꞉custom-web-shop-app.core꞉> 
+(test-dest ([1 2] [3 4]))
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/eval7272 (form-init9558449341687433834.clj:889).
+; Key must be integer
+clj꞉custom-web-shop-app.core꞉> 
+(test-dest [1 2] [3 4])
+; Execution error (ArityException) at custom-web-shop-app.core/eval7274 (form-init9558449341687433834.clj:893).
+; Wrong number of args (2) passed to: custom-web-shop-app.core/test-dest
+clj꞉custom-web-shop-app.core꞉> 
+(test-dest [1 2])
+; id  1
+; quant  2
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(test-dest [[1 2] [3 4]])
+; id  [1 2]
+; quant  [3 4]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id and number ([2 7] [0 9])
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id and number ([3 15])
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(map (fn [n]
+       (println "number" n)) ([2 7] [0 9]))
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/eval7282 (form-init9558449341687433834.clj:919).
+; Key must be integer
+clj꞉custom-web-shop-app.core꞉> 
+(map (fn [[n]]
+       (println "number" n)) ([2 7] [0 9]))
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/eval7286 (form-init9558449341687433834.clj:924).
+; Key must be integer
+clj꞉custom-web-shop-app.core꞉> 
+(map (fn [n]
+       (println "number" n)) [[2 7] [0 9]])
+; number [2 7]
+; number [0 9]
+(nil nil)
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; number  [3 15]
+(nil)
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; num id  [2 7]
+; num id  [0 9]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; num id  [3 15]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; num id  2
+; num id  0
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; num id  3
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; id  0
+; quanity  9
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; Execution error (IllegalStateException) at custom-web-shop-app.core/simulate-purchase (core.clj:215).
+; No transaction running
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; Execution error (ArityException) at custom-web-shop-app.core/simulate-purchase (core.clj:215).
+; Wrong number of args (3) passed to: clojure.lang.PersistentVector
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; Execution error (ClassCastException) at custom-web-shop-app.core/simulate-purchase (core.clj:215).
+; class clojure.lang.PersistentVector cannot be cast to class clojure.lang.Ref (clojure.lang.PersistentVector and clojure.lang.Ref are in unnamed module of loader 'app')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+
+
+
+
+
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; Purchase made, new stock: 20
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; Purchase made, new stock: 30
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; Purchase made, new stock: 20
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; Purchase made, new stock: 30
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; Purchase made, new stock: 15
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-simulation)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; 
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.input-simple :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; 
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(temp-customer-3)
+; Execution error (ArityException) at custom-web-shop-app.core/eval9456 (form-init9558449341687433834.clj:1225).
+; Wrong number of args (0) passed to: clojure.lang.PersistentArrayMap
+clj꞉custom-web-shop-app.core꞉> 
+(println temp-customer-3)
+; {:id 3, :products [[Banana 5] [Avocado 7]]}
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5]]
+; 
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(println temp-customer-3)
+; {:id 3, :products [[Banana 5] [Avocado 7]]}
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+["Cherry" 7]
+["Cherry" 7]
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(products)
+; Execution error (ArityException) at custom-web-shop-app.core/eval9562 (form-init9558449341687433834.clj:1285).
+; Wrong number of args (0) passed to: clojure.lang.PersistentVector
+clj꞉custom-web-shop-app.core꞉> 
+(println products)
+; [Apple Avocado Banana Pear Cherry]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.input-simple :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(println temp-customer-3)
+; {:id 3, :products [[Banana 5] [Avocado 7]]}
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.input-simple :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)\
+; Syntax error reading source at (REPL:1336:1).
+; EOF while reading character
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalStateException) compiling def at (custom_web_shop_app/core.clj:21:1).
+; products already refers to: #'custom-web-shop-app.input-simple/products in namespace: custom-web-shop-app.core
+clj꞉custom-web-shop-app.core꞉> 
+monitor-exit
+; Syntax error compiling at (.calva/output-window/output.calva-repl:1:1793).
+; Unable to resolve symbol: monitor-exit in this context
+clj꞉custom-web-shop-app.core꞉> 
+exit 
+; Syntax error compiling at (.calva/output-window/output.calva-repl:1:1793).
+; Unable to resolve symbol: exit in this context
+clj꞉custom-web-shop-app.core꞉> 
+; nREPL Connection was closed
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Connecting ...
+; Reading port file: file:///Users/mouzzamtahir/Downloads/UniversityCourses/MulticoreProgramming/Clojure/Project-Self-Made/custom-web-shop-app/.nrepl-port ...
+; Using host:port localhost:64862 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉custom-web-shop-app.core꞉> 
+clear
+; Syntax error compiling at (.calva/output-window/output.calva-repl:1:1792).
+; Unable to resolve symbol: clear in this context
+clj꞉custom-web-shop-app.core꞉> 
+(println temp-customer-1)
+; {:id 1, :products [[Banana 7] [Apple 9]]}
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(println temp-customer-3)
+; {:id 3, :products [[Banana 9] [Avocado 10]]}
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(println temp-customer-3)
+; {:id 3, :products [[Banana 9] [Avocado 10] [Cherry 5]]}
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 5])
+; available stores  ()
+; cheapest store  nil
+; 
+; Final Stock: [10 10 10]
+; Customer 3 could not find a store that has [[Banana 9] [Avocado 10] [Cherry 5]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 1])
+; available stores  (3)
+; cheapest store  3
+; id  2
+; quanity  9
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 8 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  1
+; quanity  10
+; [[15 25 30 29 15] [5 7 6 0 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  4
+; quanity  1
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 3 3]]
+; 
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Syntax error (IllegalArgumentException) compiling at (custom_web_shop_app/core.clj:215:11).
+; Can't call nil, form: (nil)
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; Execution error (ClassCastException) at custom-web-shop-app.core/simulate-purchase (core.clj:216).
+; class java.lang.Integer cannot be cast to class clojure.lang.IFn (java.lang.Integer is in module java.base of loader 'bootstrap'; clojure.lang.IFn is in unnamed module of loader 'app')
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 1])
+; available stores  (3)
+; cheapest store  3
+; id  2
+; quanity  9
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 8 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  1
+; quanity  10
+; [[15 25 30 29 15] [5 7 6 0 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  4
+; quanity  1
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 3 3]]
+; 
+; Final Stock: [10 10 10]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer 3 could not find a store that has Final Stock: [[10 10[ 10]Banana 
+; 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  0
+; quanity  9
+; [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer Final Stock: 3 could not find a store that has [10 10 10]
+; [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; after stock update [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; id  0
+; quanity  9
+; after stock update [[15 25 21 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; after stock update [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer Final Stock: 3 could not find a store that has [10 10 10]
+; [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; id  2
+; quanity  7
+; id  0
+; quanity  9
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; id  3
+; quanity  15
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer Final Stock: 3 could not find a store that has [10 10 10]
+; [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; stock before  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer 3 could not find a store that has Final Stock: [[10 10 10][
+; Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; stock before  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer Final Stock:3  could not find a store that has [10 10 10]
+; [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   20   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock before  nil
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock after  nil
+; 
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock before  nil
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   21   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock after  nil
+; 
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   21   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock before  nil
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   21   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18    5 Pear
+;    5    2    1    4    3 Cherry
+; stock after  nil
+; 
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Final Stock: [10 10 10]
+; Customer 3 could not find a store that has [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   20   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock before  nil
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock after  nil
+; 
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   30   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock before  nil
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   21   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock after  nil
+; 
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   21   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18   20 Pear
+;    5    2    1    4    3 Cherry
+; stock before  nil
+; Stock:
+; Aldi Carr Colr Delh Lidl 
+;   15   25   21   29   15 Apple
+;    5    7    6   10    2 Avocado
+;    2   10   13   17    8 Banana
+;   25   17   31   18    5 Pear
+;    5    2    1    4    3 Cherry
+; stock after  nil
+; 
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Customer Final Stock: [3 10 10 could not find a store that has 10]
+; [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; stock before  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Final Stock: [10 10 10]
+; Customer 3 could not find a store that has [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-sim)
+; customer's products  ([2 7] [0 9])
+; available stores  (1 2 3 4)
+; cheapest store  2
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 20 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; processing Customer 1
+; stock after  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; stock before  [[15 25 30 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [5 2 1 4 3]]
+; 
+; 
+; customer's products  ([3 15])
+; available stores  (0 1 2 3 4)
+; cheapest store  4
+; stock before  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 20] [processing Customer5  2 1 4 23
+; ]]
+; stock after  [[15 25 21 29 15] [5 7 6 10 2] [2 10 13 17 8] [25 17 31 18 5] [5 2 1 4 3]]
+; 
+; 
+; customer's products  ([2 9] [1 10] [4 6])
+; available stores  ()
+; cheapest store  nil
+; 
+; Final Stock: [10 10 10]
+; Customer 3 could not find a store that has [[Banana 9] [Avocado 10] [Cherry 6]]
+nil
+clj꞉custom-web-shop-app.core꞉> 
