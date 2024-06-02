@@ -1,7 +1,7 @@
 (ns custom-web-shop-app.input-random)
 
 ; Products are simply numbers from 0 to 999.
-(def products (range 1000))
+(def products (range 2000))
 
 ; Stores are letters from A to Z.
 (def stores ["A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"])

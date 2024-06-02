@@ -1875,3 +1875,75 @@ clj꞉custom-web-shop-app.core꞉> 
 ; Customer 3 could not find a store that has [[Banana 9] [Avocado 10] [Cherry 6]]
 nil
 clj꞉custom-web-shop-app.core꞉> 
+(run-test 10)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:1878:1).
+; Unable to resolve symbol: run-test in this context
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-rest)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:1885:1).
+; Unable to resolve symbol: run-rest in this context
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 10)
+; "Elapsed time: 2.914708 msecs"
+(true true true true true true true true true true)
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 2)
+; "Elapsed time: 0.090208 msecs"
+(true true true true true true true true true true)
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 20)
+; "Elapsed time: 0.094541 msecs"
+(true true true true true true true true true true)
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 20)
+; "Elapsed time: 0.954208 msecs"
+(true true true true true true true true true true)
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 10)
+; "Elapsed time: 0.097416 msecs"
+(true true true true true true true true true true)
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 10)
+; "Elapsed time: 3.0155 msecs"
+; "Elapsed time: 69.352542 msecs"
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 20)
+; "Elapsed time: 1.267084 msecs"
+; "Elapsed time: 63.314667 msecs"
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 20)
+; Execution error (IllegalArgumentException) at custom-web-shop-app.core/pmap-limited (core.clj:379).
+; Don't know how to create ISeq from: java.lang.Long
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 20)
+; "Elapsed time: 0.169958 msecs"
+()
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+nil
+clj꞉custom-web-shop-app.core꞉> 
+(run-test 20)
+; "Elapsed time: 0.981541 msecs"
+(true true true true true true true true true true)
+clj꞉custom-web-shop-app.core꞉> 
+(use 'custom-web-shop-app.core :reload)
+; Execution error (IllegalStateException) at custom-web-shop-app.core/eval5950$loading (core.clj:1).
+; Alias input already exists in namespace custom-web-shop-app.core, aliasing custom-web-shop-app.input-simple
+clj꞉custom-web-shop-app.core꞉> 

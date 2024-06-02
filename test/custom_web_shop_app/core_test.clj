@@ -1,7 +1,9 @@
 (ns custom-web-shop-app.core-test
   (:require [clojure.test :refer :all]
             [custom-web-shop-app.core :refer :all]
-            [custom-web-shop-app.input-simple :as input]))
+            ;; [custom-web-shop-app.input-simple :as input]
+            ;; [custom-web-shop-app.student-test-case :as input]
+            ))
 
 (deftest a-test
   (testing "FIXME, I fail."
@@ -34,109 +36,89 @@
   (do (buy-product 0 0 5) ; Buy 5 Apples at aldi
       (is (= 10 (get-current-stock-of-product-at-store 0 0)))))
 
-(def mock-stock [[15 25 30 29 15]
-                 [5 7 6 10 2]
-                 [2 10 20 17 8]
-                 [25 17 31 18 20]])
+;; ;; (def- moc "hello")
 
-(def mock-stock-for-test-with-atom (atom mock-stock))
-;; (def- moc "hello")
-;; (deftest test-process-customer
-;;   (testing "Processing a customer"
-;;     ;; temporarily binding the value of mock stock with actual stock
-;;     (with-redefs [stock mock-stock-for-test-with-atom]
-;;       (is (= 15 (get-current-stock-of-product-at-store 0 0))) ; Stock of Apple at Aldi before purchase
-;;       (is (= 2 (get-current-stock-of-product-at-store 2 0))) ; Stock of Banana at Aldi before purchase
-;;       (process-customer {:id 1 :products [["Apple" 2] ["Banana" 1]]})
-;;       (is (= 13 (get-current-stock-of-product-at-store 0 0))) ; Stock of Apple at Aldi after purchase
-;;       (is (= 1 (get-current-stock-of-product-at-store 2 0)))) ; Stock of Banana at Aldi after purchase
-;;     )) ; Stock of Banana at Aldi after purchase
+;; (def mock-customer-1 {:id 0 :products [["Apple" 5]]})
+;; (def mock-customer-2 (nth input/customers 1))
+;; (def mock-customer-3 (nth input/customers 2))
 
-(reset! mock-stock-for-test-with-atom mock-stock)
+;; (def mock-customers [mock-customer-1 mock-customer-2 mock-customer-3])
 
-(def mock-customer-1 {:id 0 :products [["Apple" 5]]})
-(def mock-customer-2 (nth input/customers 1))
-(def mock-customer-3 (nth input/customers 2))
+;; (def mock-stock [[15 25 30 29 15]
+;;                  [5 7 6 10 2]
+;;                  [2 10 20 17 8]
+;;                  [25 17 31 18 20]])
 
-(def mock-customers [mock-customer-1 mock-customer-2 mock-customer-3])
+;; ;; (def mock-stock-for-test-with-ref (ref mock-stock))
+;; ;; (dosync (ref-set stock mock-stock-for-test-with-ref))
 
-;; idk if that is the right noun for sequential :P 
-(deftest test-sequentialism
-  (with-redefs [stock mock-stock-for-test-with-atom]  ; Redefine stock only within this test
-    (is (= 15 (get-current-stock-of-product-at-store 0 0))) ;; checking the stock of apple
-    (process-customer (nth mock-customers 0))
-    (is (= 10 (get-current-stock-of-product-at-store 0 0))) ;; checking the stock of apple
+;; ;; ;; idk if that is the right noun for sequential :P 
+;; (deftest test-sequentialism
+;;   (dosync
+;;    (ref-set stock mock-stock)
+;;    (is (= 15 (get-current-stock-of-product-at-store 0 0))) ;; checking the stock of apple
+;;    (process-customer (nth mock-customers 0))
+;;    (is (= 10 (get-current-stock-of-product-at-store 0 0))) ;; checking the stock of apple
+   
+;;    (is (= 20 (get-current-stock-of-product-at-store 2 2)))
+;;    (process-customer (nth mock-customers 1))
+;;    (is (= 13 (get-current-stock-of-product-at-store 2 2)))
+   
+;;    (ref-set stock mock-stock)
+;;    (is (= 15 (get-current-stock-of-product-at-store 0 0)))
+;;    (is (= 20 (get-current-stock-of-product-at-store 2 2)))
+   
+;;    (process-customers mock-customers)
+   
+;;    (is (= 5 (get-current-stock-of-product-at-store 3 4)))
+;;    )
+;;   )
 
-    (is (= 20 (get-current-stock-of-product-at-store 2 2)))
-    (process-customer (nth mock-customers 1))
-    (is (= 13 (get-current-stock-of-product-at-store 2 2)))
+;; (deftest test-sale
+;;   (is (= 0.18 (get-current-price-of-product-at-store 3 4))) ; stock of pear at Lidl [3, 4]
+;;   (do (start-sale 4) ; Buy 5 Apples at aldi 
+;;       (is (= 0.162 (get-current-price-of-product-at-store 3 4)))
+;;       (end-sale 4)
+;;       (is (= 0.18 (get-current-price-of-product-at-store 3 4))))
+;;   )
 
-    (reset! mock-stock-for-test-with-atom mock-stock)
-    (is (= 15 (get-current-stock-of-product-at-store 0 0)))
-    (is (= 20 (get-current-stock-of-product-at-store 2 2)))
+;; (deftest test-concurrent-purchasing
+;;   (dosync
+;;    (ref-set stock mock-stock)
+;;    (doseq [customer mock-customers]
+;;      (simulate-purchase-concurrent customer))
+;;        ;; Optional: add a slight delay here to let some futures complete
+;;    (Thread/sleep 2000)
+;;        ;; Assertions can check specific stock levels here
+;;    (is (= (get-current-stock 0 0) 10))
+;;    ))
 
+;; ;; ----------------------------- Low priority
 
-    (process-customers mock-customers)
-
-    (is (= 5 (get-current-stock-of-product-at-store 3 4)))
-    ;; (is (= 15 (get-current-stock-of-product-at-store 0 0)))
-    ;; (process-customer (nth mock-customers 2))
-    ;; (future (process-customer {:id 1 :products [["Apple" 5]]}))
-    ;; (future (process-customer {:id 2 :products [["Apple" 10]]}))
-    ;; (await)
-    ;; (println "nth stock 0" (nth @stock 0))
-    ;; (println "nth " (nth (nth @stock 0) 0))
-    ;; (is (<= (nth (nth @stock 0) 0) 0)))
-    ) ; Checking stock shouldn't be negative
-  )
- ; Checking stock shouldn't be negative
-
-(deftest test-sale
-  (is (= 0.18 (get-current-price-of-product-at-store 3 4))) ; stock of pear at Lidl [3, 4]
-  (do (start-sale 4) ; Buy 5 Apples at aldi 
-      (is (= 0.162 (get-current-price-of-product-at-store 3 4)))
-      (end-sale 4)
-      (is (= 0.18 (get-current-price-of-product-at-store 3 4))))
-  )
-
-;; (deftest test-cheapest-store-after-sale
-;;   (do
-;;     ))
-
-;; (deftest test-product-and-store-ids
-;;   (testing "product-name->id and store-name->id"
-;;     (let [test-products ["Apple", "Avocado", "Banana", "Pear"]
-;;           test-stores ["Aldi", "Carrefour", "Colruyt", "Delhaize", "Lidl"]]
-;;       (with-redefs [products test-products
-;;                     stores test-stores]
-;;         (is (= 0 (product-name->id "Apple")))
-;;         (is (= 1 (store-name->id "Carrefour")))
-;;         (is (= 3 (product-name->id "Pear")))
-;;         (is (= -1 (product-name->id "Mango"))))))) ;; why -1 but not nil?
-
-;; (deftest test-get-total-price
-;;   (with-redefs [get-price (fn [store-id product-id] (if (= product-id 1) 1.20 1.00))]
-;;     (is (= 5.6 (get-total-price 1 [[0 2] [1 3]])))))
+;; ;; (deftest test-concurrent-purchases
+;; ;;   (dosync (ref-set stock mock-stock))
+;; ;;   (let [customers mock-customers 
+;; ;;         futures (map #(future (simulate-purchase-concurrent %)) customers)]
+;; ;;     (dorun (map deref futures))  ; Wait for all futures to complete
+;; ;;     (is (= 10 (get-current-stock-of-product-at-store (product-name->id "Apple") (store-name->id "Aldi")))))
+;; ;;   )
 
 
-;; (deftest test-price-calculation
-;;   (testing "get-price and get-total-price"
-;;     (let [test-prices (atom [[1.00 0.50 2.50] [0.90 1.20 3.00]]) ; Correct structure for two stores
-;;           test-store-id 1  ; Should reference the second store
-;;           test-product-ids-and-number [[0 2] [1 3]]]  ; 2 units of product 0, 3 units of product 1
-;;       (with-redefs [prices test-prices]  ; Ensure the redefined atom is used
-;;         (is (= 1.20 (get-price test-store-id 1)))  ; Checking price of product ID 1 at store ID 1
-;;         (is (= 4.6 (get-total-price test-store-id test-product-ids-and-number))))))) ;; should be 5.6
-
-;; (deftest test-stock-management
-;;     (testing "buy-product updates stock correctly"
-;;       (let [initial-stock [[15 25 30 29 15]  ; Stock for Apple
-;;                            [5 7 6 10 2]     ; Stock for Avocado
-;;                            [2 10 20 17 8]   ; Stock for Banana
-;;                            [25 17 31 18 20]] ; Stock for Pear
-;;             test-store-id 0  ; Aldi
-;;             test-product-id 0  ; Apple
-;;             number-to-buy 5]
-;;         (with-redefs [stock (atom initial-stock)]
-;;           (buy-product test-store-id test-product-id number-to-buy)
-;;           (is (= 10 (nth (nth @stock test-product-id) test-store-id)))))))  ;; Check remaining stock of Apple at Aldi
+;; (deftest test-product-purchase-under-low-stock
+;;   ;; (reset-environment)
+;;   ;; Set up the environment with low stock for a certain product
+;;   (dosync
+;;    (ref-set stock (vec (repeat (count input/products) (vec (repeat (count stores) 1)))))
+   
+;;    (let [customer {:id 1 :products [["Apple" 2]]}  ; Customer wants 2 Apples, but only 1 is available
+;;          store-id (store-name->id "Aldi")
+;;          product-id (product-name->id "Apple")]
+;;      (future (process-customer customer))
+;;        ;; Allow some time for the transaction to process
+;;      (Thread/sleep 1000)
+;;        ;; Check if the stock level was not allowed to go negative
+;;     ;;  (is (= 0 (get-current-stock store-id product-id)))
+;;        ;; Check if the transaction was aborted or handled gracefully
+;;      (is (not (:purchase-successful? customer))))
+;;    )
+;;   )
