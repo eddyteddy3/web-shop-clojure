@@ -16,6 +16,9 @@
 (require '[metrics.counters :refer [value]])
 (require '[metrics.counters :refer [inc!]])
 
+;; https://stackoverflow.com/questions/5397955/sleeping-a-thread-inside-an-executorservice-java-clojure
+;; https://stackoverflow.com/questions/41284533/concurrent-process-in-clojure
+;; https://github.com/clj-commons/claypoole
 (def executor-service (Executors/newFixedThreadPool 50))
 
 ; ------- Misc --------
