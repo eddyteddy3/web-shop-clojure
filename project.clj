@@ -6,6 +6,7 @@
   :dependencies [[
                   org.clojure/clojure "1.11.1"]
                  [com.climate/claypoole "1.1.4"]
+                 [metrics-clojure "2.10.0"]
                  ]
   :main ^:skip-aot custom-web-shop-app.core
   :repl-options {:init-ns custom-web-shop-app.core})

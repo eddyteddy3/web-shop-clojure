@@ -24,7 +24,7 @@
 
 ; Customers are randomly generated too.
 (def customers
-  (for [id (range 5000)]
+  (for [id (range 2000)]
     (let [n-products
           (+ 1 (rand-int 100))
             ; Number of products in shopping list is random number between 1 and
