@@ -158,6 +158,8 @@
      (when (>= current-stock n)
        (alter stock update-in [store-id product-id] - n)))))
 
+;; 
+
 (defn buy-products [store-id product-ids-and-number customer-id]
   (dosync
    (doseq [[product-id n] product-ids-and-number]
@@ -204,13 +206,14 @@
   can end."
   (atom false))
 
-(defn process-customers [customers]
-  "Process `customers` one by one. In this code, this happens sequentially. In
-  your implementation, this should be parallelized."
-  (doseq [customer customers]
-    (process-customer customer))
-  (reset! finished-processing? true))
+;; (defn process-customers [customers]
+;;   "Process `customers` one by one. In this code, this happens sequentially. In
+;;   your implementation, this should be parallelized."
+;;   (doseq [customer customers]
+;;     (process-customer customer))
+;;   (reset! finished-processing? true))
 
+;; race condition here...
 (defn start-sale [store-id]
   "Sale: -10% on `store-id`."
   ;; (log "Start sale for store" (store-id->name store-id))
@@ -264,7 +267,9 @@
 (defn process-customers-concurrently [customers]
   ;; adding concurrently processing the customer using map, wrapped inside future,
   ;; subsequently derefrencing it to ask for result.
+  ;; equals to (fn [customer] (submit-task executor-service simulate-purchase-concurrent customer))
   (let [futures (map #(submit-task executor-service simulate-purchase-concurrent %) customers)]
+    ; force the evaluation of lazy sequence
     (dorun (map deref futures))))  ; Wait for all to complete by dereferencing futures
 
 (defn shutdown-executor []
