@@ -36,6 +36,9 @@
 
 ; ----------- Data models -------------
 
+(def stock (atom nil))
+(def prices (atom nil))
+
 (def products input/products)
 ;; (def stock (atom input/stock))
 (def stock (ref input/stock))
@@ -49,10 +52,10 @@
   E.g. (product-name->id \"Apple\") = 0"
   (.indexOf products name))
 
-(defn product-id->name [id]
-  "Return name of product with given `id`.
-  E.g. (product-id->name 0) = \"Apple\""
-  (nth products id))
+;; (defn product-id->name [id]
+;;   "Return name of product with given `id`.
+;;   E.g. (product-id->name 0) = \"Apple\""
+;;   (nth products id))
 
 ;; add a condition where the index doesn't fall below -1!! (it goes for every index (int))
 (defn store-name->id [name]
@@ -95,21 +98,21 @@
        (:products customer)))
 
 
-(defn print-stock [stock]
-  "Print stock. Note: `stock` should not be an atom/ref/... but the value it
-  contains."
-  (println "Stock:")
-  ; Print header row with store names (abbreviated to four characters)
-  (doseq [store stores]
-    (print (apply str (take 4 store)) ""))
-  (println)
-  ; Print table
-  (doseq [product-id (range (count stock))]
-    ; Line of numbers
-    (doseq [number-in-stock (nth stock product-id)]
-      (print (clojure.pprint/cl-format nil "~4d " number-in-stock)))
-    ; Name of product
-    (println (product-id->name product-id))))
+;; (defn print-stock [stock]
+;;   "Print stock. Note: `stock` should not be an atom/ref/... but the value it
+;;   contains."
+;;   (println "Stock:")
+;;   ; Print header row with store names (abbreviated to four characters)
+;;   (doseq [store stores]
+;;     (print (apply str (take 4 store)) ""))
+;;   (println)
+;;   ; Print table
+;;   (doseq [product-id (range (count stock))]
+;;     ; Line of numbers
+;;     (doseq [number-in-stock (nth stock product-id)]
+;;       (print (clojure.pprint/cl-format nil "~4d " number-in-stock)))
+;;     ; Name of product
+;;     (println (product-id->name product-id))))
 
 ; ----------- Domain Models -------------
 
@@ -280,7 +283,6 @@
 
 (defn run-sim []
   (do
-
     ; Print parameters
     (println "Number of products:" (count products))
     (println "Number of stores:" (count stores))
@@ -288,9 +290,9 @@
     (println "Time between sales:" input/TIME_BETWEEN_SALES)
     (println "Time of sales:" input/TIME_OF_SALES)
 
-  ; Print initial stock
-  ;; (println "Initial stock:")
-  ;; (print-stock @stock)
+    ;Print initial stock
+    (println "Initial stock:")
+    ;; (print-stock @stock)
 
 
     (let [f1 (future (time (process-customers-concurrently input/customers)))
@@ -299,10 +301,13 @@
       @f1
       @f2)
 
-    (println "Total number of time visited: " (value reiteration-count))
+    ;Print initial stock
+    (println "Final stock:")
+    ;; (print-stock @stock)
+    ;; (println "Total number of time visited: " (value reiteration-count))
 
-    (doseq [customer input/customers]
-      (println "customer: " (:id customer) ", number of time visited: " (value (customer-retry-counter customer))))
+    ;; (doseq [customer input/customers]
+    ;;   (println "customer: " (:id customer) ", number of time visited: " (value (customer-retry-counter customer))))
 
     (shutdown-executor)))
 
@@ -311,11 +316,3 @@
   (do
     (run-sim)
     (shutdown-agents)))
-
-  ;; (do (println "Hello, World!")
-  ;;     (main)
-  ;;     (shutdown-agents)
-  ;;     (foo "Hello")))
-
-;lein run (sequential)
-; "Elapsed time: 10761.226333 msecs" ;
