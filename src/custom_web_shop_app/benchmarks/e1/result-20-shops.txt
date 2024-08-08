@@ -1,0 +1,110 @@
+"Elapsed time: 4.551708 msecs"
+customer:  0 , number of time visited:  4
+customer:  1 , number of time visited:  2
+customer:  2 , number of time visited:  4
+customer:  3 , number of time visited:  2
+customer:  4 , number of time visited:  3
+customer:  5 , number of time visited:  8
+customer:  6 , number of time visited:  5
+customer:  7 , number of time visited:  5
+customer:  8 , number of time visited:  4
+customer:  9 , number of time visited:  1
+"Elapsed time: 4.423916 msecs"
+customer:  0 , number of time visited:  10
+customer:  1 , number of time visited:  3
+customer:  2 , number of time visited:  3
+customer:  3 , number of time visited:  3
+customer:  4 , number of time visited:  2
+customer:  5 , number of time visited:  2
+customer:  6 , number of time visited:  1
+customer:  7 , number of time visited:  5
+customer:  8 , number of time visited:  5
+customer:  9 , number of time visited:  6
+"Elapsed time: 4.920333 msecs"
+customer:  0 , number of time visited:  3
+customer:  1 , number of time visited:  4
+customer:  2 , number of time visited:  2
+customer:  3 , number of time visited:  3
+customer:  4 , number of time visited:  2
+customer:  5 , number of time visited:  1
+customer:  6 , number of time visited:  8
+customer:  7 , number of time visited:  6
+customer:  8 , number of time visited:  8
+customer:  9 , number of time visited:  5
+"Elapsed time: 4.643083 msecs"
+customer:  0 , number of time visited:  5
+customer:  1 , number of time visited:  8
+customer:  2 , number of time visited:  5
+customer:  3 , number of time visited:  1
+customer:  4 , number of time visited:  3
+customer:  5 , number of time visited:  8
+customer:  6 , number of time visited:  3
+customer:  7 , number of time visited:  5
+customer:  8 , number of time visited:  2
+customer:  9 , number of time visited:  6
+"Elapsed time: 3.877083 msecs"
+customer:  0 , number of time visited:  5
+customer:  1 , number of time visited:  8
+customer:  2 , number of time visited:  3
+customer:  3 , number of time visited:  2
+customer:  4 , number of time visited:  4
+customer:  5 , number of time visited:  2
+customer:  6 , number of time visited:  2
+customer:  7 , number of time visited:  3
+customer:  8 , number of time visited:  1
+customer:  9 , number of time visited:  6
+"Elapsed time: 4.212333 msecs"
+customer:  0 , number of time visited:  3
+customer:  1 , number of time visited:  1
+customer:  2 , number of time visited:  2
+customer:  3 , number of time visited:  5
+customer:  4 , number of time visited:  6
+customer:  5 , number of time visited:  4
+customer:  6 , number of time visited:  3
+customer:  7 , number of time visited:  2
+customer:  8 , number of time visited:  3
+customer:  9 , number of time visited:  3
+"Elapsed time: 4.529833 msecs"
+customer:  0 , number of time visited:  9
+customer:  1 , number of time visited:  5
+customer:  2 , number of time visited:  3
+customer:  3 , number of time visited:  7
+customer:  4 , number of time visited:  2
+customer:  5 , number of time visited:  4
+customer:  6 , number of time visited:  3
+customer:  7 , number of time visited:  2
+customer:  8 , number of time visited:  4
+customer:  9 , number of time visited:  1
+"Elapsed time: 4.545583 msecs"
+customer:  0 , number of time visited:  5
+customer:  1 , number of time visited:  2
+customer:  2 , number of time visited:  4
+customer:  3 , number of time visited:  1
+customer:  4 , number of time visited:  4
+customer:  5 , number of time visited:  7
+customer:  6 , number of time visited:  2
+customer:  7 , number of time visited:  6
+customer:  8 , number of time visited:  4
+customer:  9 , number of time visited:  3
+"Elapsed time: 4.548292 msecs"
+customer:  0 , number of time visited:  4
+customer:  1 , number of time visited:  3
+customer:  2 , number of time visited:  6
+customer:  3 , number of time visited:  7
+customer:  4 , number of time visited:  4
+customer:  5 , number of time visited:  2
+customer:  6 , number of time visited:  2
+customer:  7 , number of time visited:  4
+customer:  8 , number of time visited:  1
+customer:  9 , number of time visited:  8
+"Elapsed time: 4.758125 msecs"
+customer:  0 , number of time visited:  5
+customer:  1 , number of time visited:  3
+customer:  2 , number of time visited:  4
+customer:  3 , number of time visited:  3
+customer:  4 , number of time visited:  2
+customer:  5 , number of time visited:  3
+customer:  6 , number of time visited:  8
+customer:  7 , number of time visited:  1
+customer:  8 , number of time visited:  7
+customer:  9 , number of time visited:  5

@@ -1,11 +1,11 @@
 (ns custom-web-shop-app.core
   (:require [clojure.pprint]
 
-            ;; [custom-web-shop-app.insufficient-store-test-case :as input]            
+            [custom-web-shop-app.insufficient-store-test-case :as input]            
 
             ;; [custom-web-shop-app.input-random :as input]
 
-            [custom-web-shop-app.input-simple :as input]
+            ;; [custom-web-shop-app.input-simple :as input]
 
             ;; [custom-web-shop-app.student-test-case :as input]
             ))
@@ -13,15 +13,23 @@
 (import '(java.util.concurrent Executors))
 (require '[metrics.core :refer [new-registry]])
 (require '[metrics.counters :refer [counter]])
-(require '[metrics.counters :refer [value]])
 (require '[metrics.counters :refer [inc!]])
+
+; ------- Misc --------
 
 ;; https://stackoverflow.com/questions/5397955/sleeping-a-thread-inside-an-executorservice-java-clojure
 ;; https://stackoverflow.com/questions/41284533/concurrent-process-in-clojure
 ;; https://github.com/clj-commons/claypoole
-(def executor-service (Executors/newFixedThreadPool 50))
+(def executor-service (Executors/newFixedThreadPool 1))
 
-; ------- Misc --------
+(def reiteration-registery (new-registry))
+(def reiteration-count (counter reiteration-registery "re-iteration"))
+
+(def customer-register (new-registry))
+
+(defn customer-retry-counter [customer-id]
+  ;; setting the id for each customer such that its easy to distinguish the results
+  (counter customer-register (str "customer- " (:id customer-id))))
 
 ; Logging
 ;; (def logger (agent nil))
@@ -36,26 +44,36 @@
 
 ; ----------- Data models -------------
 
-(def stock (atom nil))
-(def prices (atom nil))
+;; (def stock (atom nil))
+;; (def prices (atom nil))
 
 (def products input/products)
-;; (def stock (atom input/stock))
-(def stock (ref input/stock))
-; We simply copy the stores from the input file, without modifying them.
 (def stores input/stores)
+
 ;; (def prices (ref input/prices))
-(def prices (atom input/prices))
+;; (def prices (atom input/prices))
+
+;; (def stock (atom (mapv ref input/stock)))
+;; (def prices (atom (mapv ref input/prices)))
+
+(def prices
+  (atom
+   (vec
+    (for [store-prices input/prices]
+      (vec (map ref store-prices))))))
+
+; Initialize stock atom with refs
+(def stock
+  (atom
+   (vec
+    (for [store-stock input/stock]
+      (vec (map ref store-stock))))))
+
 
 (defn product-name->id [name]
   "Return id (= index) of product with given `name`.
   E.g. (product-name->id \"Apple\") = 0"
   (.indexOf products name))
-
-;; (defn product-id->name [id]
-;;   "Return name of product with given `id`.
-;;   E.g. (product-id->name 0) = \"Apple\""
-;;   (nth products id))
 
 ;; add a condition where the index doesn't fall below -1!! (it goes for every index (int))
 (defn store-name->id [name]
@@ -63,23 +81,26 @@
   E.g. (store-name->id \"Aldi\") = 0"
   (.indexOf stores name))
 
-(defn get-price [store-id product-id]
-  "Returns the price of the given product in the given store."
-  (nth (nth @prices product-id) store-id))
+;; (defn get-price [store-id product-id]
+;;   "Returns the price of the given product in the given store."
+;;   (nth (nth @prices product-id) store-id))
+
+;; https://stackoverflow.com/questions/8087115/clojure-index-of-a-value-in-a-list-or-other-collection
+
+(defn index-of [coll item]
+  (first (keep-indexed (fn [idx val] (when (= val item) idx)) coll)))
+
+(defn get-price [product store]
+  (let [store-index (index-of input/stores store)]
+    (if-let [price-ref (get-in @prices [product store-index])]
+      (@price-ref)
+      0)))
 
 (defn set-price [store-id product-id new-price]
   "Set the price of the given product in the given store to `new-price`."
-  (swap! prices assoc-in [product-id store-id] new-price)
-  ;; (dosync alter prices assoc-in [product-id store-id] new-price)
+  ;; (swap! prices assoc-in [product-id store-id] new-price)
+  (dosync alter prices assoc-in [product-id store-id] new-price)
   )
-
-(defn get-current-stock-of-product-at-store
-  [product-id store-id]
-  (nth (nth @stock product-id) store-id))
-
-(defn get-current-price-of-product-at-store
-  [product-id store-id]
-  (nth (nth @prices product-id) store-id))
 
 (defn get-total-price [store-id product-ids-and-number]
   (reduce + (map (fn [[product-id quantity]]
@@ -97,23 +118,6 @@
   (map (fn [[name number]] [(product-name->id name) number]) ;;(extract-product-id-and-quantity name 1)
        (:products customer)))
 
-
-;; (defn print-stock [stock]
-;;   "Print stock. Note: `stock` should not be an atom/ref/... but the value it
-;;   contains."
-;;   (println "Stock:")
-;;   ; Print header row with store names (abbreviated to four characters)
-;;   (doseq [store stores]
-;;     (print (apply str (take 4 store)) ""))
-;;   (println)
-;;   ; Print table
-;;   (doseq [product-id (range (count stock))]
-;;     ; Line of numbers
-;;     (doseq [number-in-stock (nth stock product-id)]
-;;       (print (clojure.pprint/cl-format nil "~4d " number-in-stock)))
-;;     ; Name of product
-;;     (println (product-id->name product-id))))
-
 ; ----------- Domain Models -------------
 
 (defn sort-cart-by-price
@@ -122,87 +126,126 @@
    (fn [store-id] (get-total-price store-id product-id-and-quantity))
    available-store-ids))
 
-(defn product-available? [store-id product-id n]
-  "Returns true if at least `n` of the given product are still available in the
-  given store."
-  (>= (nth (nth @stock product-id) store-id) n))
+;; (defn product-available? [store-id product-id n]
+;;   "Returns true if at least `n` of the given product are still available in the
+;;   given store."
+;;   (>= (nth (nth @stock product-id) store-id) n))
 
+;; (defn find-available-stores [product-ids-and-number]
+;;   "Returns the id's of the stores in which the given products are still
+;;   available."
+;;   (filter
+;;    (fn [store-id]
+;;      (every?
+;;       (fn [[product-id n]] (product-available? store-id product-id n))
+;;       product-ids-and-number))
+;;    (map store-name->id stores)))
+
+(defn get-stock [product store]
+  (let [store-index (index-of input/stores store)]
+    (if-let [stock-ref (get-in @stock [product store-index])]
+      (do
+        ;; (log "get-stock:" product store "index:" store-index "stock-ref:" @stock-ref)
+        (if (nil? @stock-ref) 0 @stock-ref))
+      (do
+        ;; (log "get-stock: stock-ref is nil for" product store "index:" store-index)
+        0))))
+
+;; find the available stores for the given product quantity and ids
+;; product-ids-and-number: list of tuple [id-N quantity]
 (defn find-available-stores [product-ids-and-number]
-  "Returns the id's of the stores in which the given products are still
-  available."
-  (filter
-   (fn [store-id]
-     (every?
-      (fn [[product-id n]] (product-available? store-id product-id n))
-      product-ids-and-number))
-   (map store-name->id stores)))
+  (filter (fn [store-id]
+            (every? (fn [[product-id number]]
+                      (let [stock (get-stock product-id (nth input/stores store-id))]
+                        ;; (log "Checking stock for product" product-id "in store" store-id "required:" number "available:" stock)
+                        ;; adding a condition because without it the stock falls below -1
+                        (>= stock number)))
+                    product-ids-and-number))
+          (range (count input/stores))))
 
 ; ------- Business Logic -------
 
-(def reiteration-registery (new-registry))
-(def reiteration-count (counter reiteration-registery "re-iteration"))
+;; (defn buy-product [store-id product-id n customer-id]
+;;   "Updates `stock` to buy `n` of the given product in the given store."
+;;   ;; (swap! stock
+;;   ;; using alter instead
+;;   ;; (dosync
+;;   ;;  (inc! (counter reg "users-connected"))
+;;   (inc! (counter reiteration-registery "re-iteration"))
+;;   (inc! (customer-retry-counter customer-id))
 
-(def customer-register (new-registry))
+;;   (println "Current stock before purchase:" @(get-in @stock [store-id product-id]))
 
-(defn customer-retry-counter [customer-id]
-  ;; setting the id for each customer such that its easy to distinguish the results
-  (counter customer-register (str "customer- " (:id customer-id))))
-
-(defn buy-product [store-id product-id n customer-id]
-  "Updates `stock` to buy `n` of the given product in the given store."
-  ;; (swap! stock
-  ;; using alter instead
-  (dosync
-  ;;  (inc! (counter reg "users-connected"))
-   (inc! (counter reiteration-registery "re-iteration"))
-   (inc! (customer-retry-counter customer-id))
-
-   (let [current-stock (get-current-stock store-id product-id)]
-     (when (>= current-stock n)
-       (alter stock update-in [store-id product-id] - n)))))
+;;   (let [current-stock (get-current-stock store-id product-id)]
+;;     (println "Current stock INSIDE" @current-stock)
+;;      ;; adding a condition because without it the stock falls below -1
+;;     (when (>= @current-stock n)
+;;       (dosync
+;;        (println "PURCHASE")
+;;        (alter stock update-in [store-id product-id] - n)
+;;       ;;  (println "HEHEHEHEHEHE")
+;;        ))))
+;; )
 
 ;; 
 
-(defn buy-products [store-id product-ids-and-number customer-id]
-  (dosync
-   (doseq [[product-id n] product-ids-and-number]
-     (buy-product store-id product-id n customer-id))))
+(defn buy-products [store-id product-ids-and-number customer]
+  (doseq [[product-id number] product-ids-and-number]
+    ;; (if )
+      ;; (let [current-stock (get-stock product-id (nth input/stores store-id))
+      ;;       (println "current stock: " current-stock)]
+    ;; (do
+      (let [current-stock (get-stock product-id (nth stores store-id))]
+        ;; (print "\ncurrent-stock" current-stock)
+        ;; (print "")
+
+        (if (>= current-stock number)
+          (do
+            (inc! (counter reiteration-registery "re-iteration"))
+            (inc! (customer-retry-counter customer))
+            (alter (get-in @stock [product-id store-id]) - number))))))
+
+;; (defn buy-products [store-id product-ids-and-number customer-id]
+;;   (dosync
+;;    (doseq [[product-id n] product-ids-and-number]
+;;      (buy-product store-id product-id n customer-id))))
 
 ;; sequential processing of customer
-(defn process-customer [customer]
-  "Process `customer`. Consists of three steps:
-  1. Finding all stores in which the requested products are still available.
-  2. Sorting the found stores to find the cheapest (for the sum of all products).
-  3. Buying the products by updating the `stock`.
+;; (defn process-customer [customer]
+;;   "Process `customer`. Consists of three steps:
+;;   1. Finding all stores in which the requested products are still available.
+;;   2. Sorting the found stores to find the cheapest (for the sum of all products).
+;;   3. Buying the products by updating the `stock`.
 
-  Note: because this implementation is sequential, we do not suffer from
-  inconsistencies. That will be different in your implementation."
-  (let [product-ids-and-number ;; 
-        (get-customer-products-with-id-and-quantity customer)
-        ;; (map (fn [[name number]] [(product-name->id name) number])
-        ;;      (:products customer))
+;;   Note: because this implementation is sequential, we do not suffer from
+;;   inconsistencies. That will be different in your implementation."
+;;   (let [product-ids-and-number ;; 
+;;         (get-customer-products-with-id-and-quantity customer)
+;;         ;; (map (fn [[name number]] [(product-name->id name) number])
+;;         ;;      (:products customer))
 
-        available-store-ids  ; step 1
-        (find-available-stores product-ids-and-number)
+;;         available-store-ids  ; step 1
+;;         (find-available-stores product-ids-and-number)
 
-        cheapest-store-id  ; step 2
-        (first  ; Returns nil if there's no available stores
-         (sort-by
-              ; sort stores by total price
-          (fn [store-id] (get-total-price store-id product-ids-and-number))
-          available-store-ids))]
+;;         cheapest-store-id  ; step 2
+;;         (first  ; Returns nil if there's no available stores
+;;          (sort-by
+;;               ; sort stores by total price
+;;           (fn [store-id] (get-total-price store-id product-ids-and-number))
+;;           available-store-ids))]
 
-    (if (nil? cheapest-store-id)
-      ;; (println "No store available for this customer " (:id customer))
-      ;; (log "Customer" (:id customer) "could not find a store that has"
-      ;;   (:products customer))
-      ;; nil
-      (do
-        (buy-products cheapest-store-id product-ids-and-number customer) ;  step 3
-        ;; (println "customer " (:id customer) "bought " (:products customer))
-        ;; (log "Customer" (:id customer) "bought" (:products customer) "in"
-        ;;   (store-id->name cheapest-store-id))
-        ))))
+;;     (if (nil? cheapest-store-id)
+;;       ;; (println "No store available for this customer " (:id customer))
+;;       ;; (log "Customer" (:id customer) "could not find a store that has"
+;;       ;;   (:products customer))
+;;       ;; nil
+;;       (do
+;;         (buy-products cheapest-store-id product-ids-and-number)
+;;         ;; (buy-products cheapest-store-id product-ids-and-number customer) ;  step 3
+;;         ;; (println "customer " (:id customer) "bought " (:products customer))
+;;         ;; (log "Customer" (:id customer) "bought" (:products customer) "in"
+;;         ;;   (store-id->name cheapest-store-id))
+;;         ))))
 
 (def finished-processing?
   "Set to true once all customers have been processed, so that sales process
@@ -216,7 +259,6 @@
 ;;     (process-customer customer))
 ;;   (reset! finished-processing? true))
 
-;; race condition here...
 (defn start-sale [store-id]
   "Sale: -10% on `store-id`."
   ;; (log "Start sale for store" (store-id->name store-id))
@@ -250,15 +292,17 @@
         cheapest-store-id (when-not (empty? available-store-ids)
                             (first (sort-cart-by-price product-ids-and-number available-store-ids)))]
     (when cheapest-store-id
-      (dosync  ; Ensure all operations within are transactional
+      (dosync  ; Ensure all operations within are transaction otherwise it leads to negative values
        (try
          (do
           ;;  (println "bought for customer " (:id customer))
+          ;;  (buy-products cheapest-store-id product-ids-and-number customer)
            (buy-products cheapest-store-id product-ids-and-number customer))
-         (catch Exception e
-          ;;  (println "Transaction failed for customer" (:id customer) ", retrying..." e)
-          ;;  (recur customer)
-           )))))
+        ;;  (catch Exception e
+        ;;    (println "Transaction failed for customer" (:id customer) ", retrying..." e)
+        ;;   ;;  (recur customer)
+        ;;    )
+         ))))
   (reset! finished-processing? true))  ; Optionally retry the transaction if it fails
 
 (defn submit-task [executor-service task-fn arg]
@@ -280,20 +324,35 @@
   (when (not (.awaitTermination executor-service 60 java.util.concurrent.TimeUnit/SECONDS))
     (.shutdownNow executor-service)))
 
+(defn product-id->name [id]
+  "Return name of product with given `id`.
+  E.g. (product-id->name 0) = \"Apple\""
+  (nth products id))
+
+(defn print-stock []
+  "Print stock from the refs."
+  (println "\nStock:")
+  (doseq [store stores]
+    (print (apply str (take 4 store)) " "))
+  (println)
+  (doseq [product-id (range (count @stock))]
+    (doseq [store-id (range (count (nth @stock product-id)))]
+      (print (clojure.pprint/cl-format nil "~4d " @(get-in @stock [product-id store-id]))))
+    (println (product-id->name product-id))
+    (println)))
 
 (defn run-sim []
   (do
     ; Print parameters
-    (println "Number of products:" (count products))
-    (println "Number of stores:" (count stores))
-    (println "Number of customers:" (count input/customers))
-    (println "Time between sales:" input/TIME_BETWEEN_SALES)
-    (println "Time of sales:" input/TIME_OF_SALES)
+    ;; (println "Number of products:" (count products))
+    ;; (println "Number of stores:" (count stores))
+    ;; (println "Number of customers:" (count input/customers))
+    ;; (println "Time between sales:" input/TIME_BETWEEN_SALES)
+    ;; (println "Time of sales:" input/TIME_OF_SALES)
 
     ;Print initial stock
     (println "Initial stock:")
-    ;; (print-stock @stock)
-
+    (print-stock)
 
     (let [f1 (future (time (process-customers-concurrently input/customers)))
           f2 (future (sales-process))]
@@ -301,9 +360,10 @@
       @f1
       @f2)
 
+    ;; (print-stock)
     ;Print initial stock
     (println "Final stock:")
-    ;; (print-stock @stock)
+    (print-stock)
     ;; (println "Total number of time visited: " (value reiteration-count))
 
     ;; (doseq [customer input/customers]
