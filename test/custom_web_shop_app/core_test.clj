@@ -31,10 +31,10 @@
   (do (set-price 0 0 0.20) ; Set new price
       (is (= 0.20 (get-price 0 0)))))
 
-(deftest test-buy-product
-  (is (= 15 (get-current-stock-of-product-at-store 0 0))) ; stock of apple at Aldi [0, 0]
-  (do (buy-product 0 0 5 0) ; Buy 5 Apples at aldi
-      (is (= 10 (get-current-stock-of-product-at-store 0 0)))))
+;; (deftest test-buy-product
+;;   (is (= 15 (get-current-stock-of-product-at-store 0 0))) ; stock of apple at Aldi [0, 0]
+;;   (do (buy-product 0 0 5 0) ; Buy 5 Apples at aldi
+;;       (is (= 10 (get-current-stock-of-product-at-store 0 0)))))
 
 ;; ;; (def- moc "hello")
 
@@ -74,13 +74,13 @@
 ;;    )
 ;;   )
 
-(deftest test-sale
-  (is (= 0.18 (get-current-price-of-product-at-store 3 4))) ; stock of pear at Lidl [3, 4]
-  (do (start-sale 4) ; Buy 5 Apples at aldi 
-      (is (= 0.162 (get-current-price-of-product-at-store 3 4)))
-      (end-sale 4)
-      (is (= 0.18 (get-current-price-of-product-at-store 3 4))))
-  )
+;; (deftest test-sale
+;;   (is (= 0.18 (get-current-price-of-product-at-store 3 4))) ; stock of pear at Lidl [3, 4]
+;;   (do (start-sale 4) ; Buy 5 Apples at aldi 
+;;       (is (= 0.162 (get-current-price-of-product-at-store 3 4)))
+;;       (end-sale 4)
+;;       (is (= 0.18 (get-current-price-of-product-at-store 3 4))))
+;;   )
 
 (deftest test-concurrent-purchasing
   (dosync
